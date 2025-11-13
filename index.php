@@ -8,7 +8,22 @@ if (isset($_SESSION['username'])) {
 }
 
 $error = "";
+if (isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
+    // validasi sederhana form login
+    if ($username === 'Dina' && $password === '1708') {
+        $_SESSION['username'] = $username;
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        $error = "Username atau password salah!";
+    }
+} elseif (isset($_POST['batal'])) {
+    header("Location: index.php");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -275,7 +290,7 @@ $error = "";
                 <label for="username"><i class="fas fa-user-tie"></i> Username</label>
                 <div class="input-with-icon">
                     <i class="fas fa-user-cog"></i>
-                    <input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : 'dina'; ?>" required 
+                    <input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : 'Dina'; ?>" required 
                            placeholder="Masukkan username ">
                 </div>
             </div>
