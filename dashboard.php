@@ -14,6 +14,48 @@ $user_data = [
     'alamat' => 'Jl. Pendidikan No. 123, Medan',
     'total_transaksi' => rand(15, 50)
 ];
+
+// Commit 5: Array produk
+$produk = [
+    ['kode_barang' => 'P001', 'nama_barang' => 'Buku Tulis', 'harga_barang' => 5000],
+    ['kode_barang' => 'P002', 'nama_barang' => 'Pensil', 'harga_barang' => 2000],
+    ['kode_barang' => 'P003', 'nama_barang' => 'Penghapus', 'harga_barang' => 1000],
+    ['kode_barang' => 'P004', 'nama_barang' => 'Penggaris', 'harga_barang' => 3000],
+    ['kode_barang' => 'P005', 'nama_barang' => 'Spidol', 'harga_barang' => 7000]
+];
+
+// Commit 6: Array untuk penjualan random
+$beli = [];
+$grand_total = 0;
+$jumlah_pembelian = rand(3, 8); // Random 3-8 item
+
+for ($i = 0; $i < $jumlah_pembelian; $i++) {
+    $produk_acak = $produk[array_rand($produk)];
+    $jumlah = rand(1, 5);
+    $total = $produk_acak['harga_barang'] * $jumlah;
+    
+    $beli[] = [
+        'kode_barang' => $produk_acak['kode_barang'],
+        'nama_barang' => $produk_acak['nama_barang'],
+        'harga_barang' => $produk_acak['harga_barang'],
+        'jumlah' => $jumlah,
+        'total' => $total
+    ];
+    
+    $grand_total += $total;
+}
+
+// Commit 9: Perhitungan diskon
+if ($grand_total < 50000) {
+    $diskon = 5;
+} elseif ($grand_total >= 50000 && $grand_total <= 100000) {
+    $diskon = 10;
+} else {
+    $diskon = 15;
+}
+
+$jumlah_diskon = ($grand_total * $diskon) / 100;
+$total_bayar = $grand_total - $jumlah_diskon;
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -188,6 +230,116 @@ $user_data = [
             color: #9370db;
         }
 
+        /* Dashboard Sales Styles */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.1);
+            border: 1px solid #e6e6fa;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: #9370db;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.1);
+            border: 1px solid #e6e6fa;
+        }
+
+        th {
+            background: linear-gradient(135deg, #9370db, #d8bfd8);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        th i {
+            margin-right: 8px;
+        }
+
+        td {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 15px;
+            color: #555;
+        }
+
+        tr:hover {
+            background-color: #f8f8ff;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .total-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #9370db, #d8bfd8);
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(147, 112, 219, 0.3);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .total-label {
+            font-weight: 500;
+        }
+
+        .total-label i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .total-value {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
         /* Profile Section Styles */
         .profile-header {
             text-align: center;
@@ -252,46 +404,6 @@ $user_data = [
             color: #333;
             font-weight: 500;
         }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.1);
-            border: 1px solid #e6e6fa;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            color: #9370db;
-            margin-bottom: 10px;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
@@ -318,8 +430,97 @@ $user_data = [
         </button>
     </div>
 
-   
-       
+    <!-- Dashboard Section -->
+    <div class="dashboard-container" id="dashboardSection">
+        <div class="store-header">
+            <div class="store-icon">
+                <i class="fas fa-store-alt"></i>
+            </div>
+            <h1>POLGAN MART</h1>
+            <div class="store-tagline">
+                <i class="fas fa-map-marker-alt"></i> Your Neighborhood Supermarket
+            </div>
+        </div>
+
+        <!-- Commit 5-9: Dashboard Penjualan -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-basket"></i>
+                </div>
+                <div class="stat-value"><?php echo $jumlah_pembelian; ?></div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-cash-register"></i>
+                </div>
+                <div class="stat-value">Rp <?php echo number_format($grand_total, 0, ',', '.'); ?></div>
+                <div class="stat-label">Total Belanja</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="stat-value"><?php echo $diskon; ?>%</div>
+                <div class="stat-label">Diskon</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="stat-value">Rp <?php echo number_format($total_bayar, 0, ',', '.'); ?></div>
+                <div class="stat-label">Total Bayar</div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #666; margin-bottom: 30px; font-weight: 500;">
+            <i class="fas fa-list-alt"></i> Detail Transaksi Penjualan
+        </h2>
+        
+        <!-- Commit 7: Tabel detail pembelian -->
+        <table>
+            <thead>
+                <tr>
+                    <th><i class="fas fa-hashtag"></i> No</th>
+                    <th><i class="fas fa-barcode"></i> Kode</th>
+                    <th><i class="fas fa-cube"></i> Nama Barang</th>
+                    <th><i class="fas fa-tag"></i> Harga Satuan</th>
+                    <th><i class="fas fa-boxes"></i> Qty</th>
+                    <th><i class="fas fa-calculator"></i> Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no = 1; ?>
+                <?php foreach ($beli as $item): ?>
+                <tr>
+                    <td><?php echo $no++; ?></td>
+                    <td><strong><?php echo $item['kode_barang']; ?></strong></td>
+                    <td><?php echo $item['nama_barang']; ?></td>
+                    <td>Rp <?php echo number_format($item['harga_barang'], 0, ',', '.'); ?></td>
+                    <td><?php echo $item['jumlah']; ?></td>
+                    <td><strong>Rp <?php echo number_format($item['total'], 0, ',', '.'); ?></strong></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        
+        <!-- Commit 8 & 9: Total belanja dan diskon -->
+        <div class="total-section">
+            <div class="total-row">
+                <span class="total-label"><i class="fas fa-shopping-cart"></i> Total Belanja:</span>
+                <span class="total-value">Rp <?php echo number_format($grand_total, 0, ',', '.'); ?></span>
+            </div>
+            <div class="total-row">
+                <span class="total-label"><i class="fas fa-gift"></i> Diskon (<?php echo $diskon; ?>%):</span>
+                <span class="total-value">Rp <?php echo number_format($jumlah_diskon, 0, ',', '.'); ?></span>
+            </div>
+            <div class="total-row">
+                <span class="total-label"><i class="fas fa-credit-card"></i> Total Bayar:</span>
+                <span class="total-value">Rp <?php echo number_format($total_bayar, 0, ',', '.'); ?></span>
+            </div>
+        </div>
+    </div>
 
     <!-- Profile Section -->
     <div class="profile-container" id="profileSection">
